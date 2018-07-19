@@ -589,15 +589,25 @@ int main(int argc, char *argv[]) {
 	    case SDL_KEYDOWN:
 		switch(event.key.keysym.sym) {
 		    case SDLK_UP:
+			printf("up arrow\n");
 			throttle = 1;
 			break;
+		    case SDLK_DOWN:
+			printf("down arrow\n");
+			unlock_enabled = 1;
+			printf("%d", lock_enabled);
+                        send_unlock(CAN_DOOR1_LOCK | CAN_DOOR2_LOCK | CAN_DOOR3_LOCK | CAN_DOOR4_LOCK);
+                        break;
+
 		    case SDLK_LEFT:
-			turning = -1;
-			break;
+			lock_enabled = 1;
+                        send_lock(CAN_DOOR1_LOCK | CAN_DOOR2_LOCK | CAN_DOOR3_LOCK | CAN_DOOR4_LOCK);
+                        break;
 		    case SDLK_RIGHT:
 			turning = 1;
 			break;
 		    case SDLK_LSHIFT:
+			printf("lshift");
 			lock_enabled = 1;
 			if(unlock_enabled) send_lock(CAN_DOOR1_LOCK | CAN_DOOR2_LOCK | CAN_DOOR3_LOCK | CAN_DOOR4_LOCK);
 			break;
